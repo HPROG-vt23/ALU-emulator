@@ -64,16 +64,16 @@ namespace cpu
    }
 
    /********************************************************************************
-   * read: Reads bit from specified register. The return value is not equal to
-   *       zero if the bit is high. If the bit is low the return value is zero.
+   * read: Reads bit from specified register. The return value is 1 if the bit is
+   *       high, otherwise it's 0.
    *
    *       - reg: Reference to the register.
    *       - bit: The bit to be read in the referenced register.
    ********************************************************************************/
    template<class T = std::uint8_t>
-   static T read(const T reg, const std::uint8_t bit)
+   static bool read(const T reg, const std::uint8_t bit)
    {
-      return reg & (1 << bit);
+      return static_cast<bool>(reg & (1 << bit));
    }
 
    /********************************************************************************

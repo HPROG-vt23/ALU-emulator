@@ -104,9 +104,8 @@ namespace alu
       }
       case SUB:
       {
-         result = a - b;
-
-         if (a < b) result += 256;
+         if (a >= b) result = a - b;
+         else result = a - b + 256;
 
          if ((read(a, 7) != read(b, 7)) && (read(b, 7) == read(result, 7)))
          {
@@ -117,10 +116,10 @@ namespace alu
       }
       }
 
-      if (read(result, 8)) set(sr, C);
-      if (result == 0) set(sr, Z);
-      if (read(result, 7)) set(sr, N);
-      if (static_cast<bool>(read(sr, N)) != static_cast<bool>(read(sr, V))) set(sr, S);
+      if (read(result, 8))            set(sr, C);
+      if (read(result, 7))            set(sr, N);
+      if (result == 0)                set(sr, Z);
+      if (read(sr, N) != read(sr, V)) set(sr, S);
 
       return static_cast<std::uint8_t>(result);
    }
