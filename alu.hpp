@@ -102,12 +102,11 @@ namespace alu
 
          break;
       }
-      case SUB:
+      case SUB: 
       {
-         if (a >= b) result = a - b;
-         else result = a - b + 256;
+         result = a + (256 - b);
 
-         if ((read(a, 7) != read(b, 7)) && (read(b, 7) == read(result, 7)))
+         if ((read(a, 7) == read(256 - b, 7)) && (read(a, 7) != read(result, 7)))
          {
             set(sr, V);
          }
@@ -145,8 +144,17 @@ namespace alu
       ostream << "Instruction: " << get_instruction_name(operation) << "\n";
       ostream << "Decimal\t   : " << get_signed(a) << get_operator(operation)
          << get_signed(b) << " = " << get_signed(result, sr) << "\n";
-      ostream << "Binary\t   : " << std::bitset<8>(a) << get_operator(operation)
-         << std::bitset<8>(b) << " = " << std::bitset<8>(result) << "\n";
+
+      if (operation == SUB)
+      {
+         ostream << "Binary\t   : " << std::bitset<8>(a) << " + " 
+            << std::bitset<8>(256 - b) << " = " << std::bitset<8>(result) << "\n";
+      }
+      else
+      {
+         ostream << "Binary\t   : " << std::bitset<8>(a) << get_operator(operation)
+            << std::bitset<8>(b) << " = " << std::bitset<8>(result) << "\n";
+      }
       ostream << "Status bits: SNZVC = " << std::bitset<5>(sr) << "\n";
       ostream << "--------------------------------------------------------------------------------\n\n";
       return;
