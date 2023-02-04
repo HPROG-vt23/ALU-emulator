@@ -115,10 +115,10 @@ namespace alu
       }
       }
 
-      if (read(result, 8))            set(sr, C);
-      if (read(result, 7))            set(sr, N);
-      if (result == 0)                set(sr, Z);
-      if (read(sr, N) != read(sr, V)) set(sr, S);
+      if (read(result, 8))                        set(sr, C);
+      if (read(result, 7))                        set(sr, N);
+      if (static_cast<std::uint8_t>(result) == 0) set(sr, Z);
+      if (read(sr, N) != read(sr, V))             set(sr, S);
 
       return static_cast<std::uint8_t>(result);
    }
